@@ -6,11 +6,13 @@ import { join } from 'path';
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
+import * as crossDomain from '@midwayjs/cross-domain';
 
 @Configuration({
   imports: [
     koa,
     validate,
+    crossDomain,
     {
       component: info,
       enabledEnvironment: ['local'],
