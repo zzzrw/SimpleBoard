@@ -1,16 +1,24 @@
-import {Entity, PrimaryColumn, Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Project } from './project';
+import { Comment } from './comment';
 
-@Entity("user")
+@Entity()
 export class User {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
+
+  @OneToMany(() => Project, project => project.user)
+  projects: Project[];
+
+  @OneToMany(() => Comment, comment => comment.user)
+  comments: Comment[];
 }

@@ -12,7 +12,7 @@ export class APIController {
     const user = await this.userService.authenticate(username, password);
 
     if (user) {
-      return { success: true, message: '登录成功', data: user };
+      return { success: true, message: '登录成功', user: user };
     } else {
       return { success: false, message: '用户名或密码错误' };
     }

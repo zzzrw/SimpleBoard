@@ -10,34 +10,9 @@ function RegisterModal( { closeRegister, showRegister } ) {
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
-        if (!registerUsername) {
-            alert('请输入用户名');
-            return;
-        }
-
-        if (!registerPassword) {
-            alert('请输入密码');
-            return;
-        }
-
-        if (!identifyPassword) {
-            alert('请再次输入密码');
-            return;
-        }
 
         if (registerPassword !== identifyPassword) {
             alert('两次输入的密码不一致');
-            return;
-        }
-
-        if (!email) {
-            alert('请输入邮箱');
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('请输入正确的邮箱格式');
             return;
         }
 
@@ -75,7 +50,7 @@ function RegisterModal( { closeRegister, showRegister } ) {
                 &times;
             </button>
             <h2 className="text-4xl text-left font-black font-serif">注册</h2>
-            <form>
+            <form onSubmit={handleRegisterSubmit}>
                 <div className="mt-4">
                     <label htmlFor="register-username" className="text-xl font-serif font-semibold">用户名</label>
                     <input
@@ -126,7 +101,7 @@ function RegisterModal( { closeRegister, showRegister } ) {
                 </div>
                 <div className="flex justify-center text-center w-full">
                     <button
-                        onClick={handleRegisterSubmit}
+                        type="submit"
                         className="w-full mt-10 py-2 border border:bg-blue-100 bg-blue-500 text-gray-50 rounded-lg hover:bg-blue-600">注册
                     </button>
                 </div>

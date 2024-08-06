@@ -10,34 +10,9 @@ function ModifierModal( { closeModifier, showModifier } ) {
 
     const handleModifySubmit = async (e) => {
         e.preventDefault();
-        if (!modifierUsername) {
-            alert('请输入用户名');
-            return;
-        }
-
-        if (!modifierPassword) {
-            alert('请输入密码');
-            return;
-        }
-
-        if (!identifyPassword) {
-            alert('请再次输入密码');
-            return;
-        }
 
         if (modifierPassword !== identifyPassword) {
             alert('两次输入的密码不一致');
-            return;
-        }
-
-        if (!email) {
-            alert('请输入邮箱');
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('请输入正确的邮箱格式');
             return;
         }
 
@@ -52,6 +27,9 @@ function ModifierModal( { closeModifier, showModifier } ) {
             if (response.data.success) {
                 alert('修改密码成功');
                 closeModifier();
+
+            } else {
+                alert('修改密码失败，用户名不存在或邮箱错误');
             }
         } catch (error) {
             console.error(error);
@@ -72,7 +50,7 @@ function ModifierModal( { closeModifier, showModifier } ) {
                 &times;
             </button>
             <h2 className="text-4xl text-left font-black font-serif">修改密码</h2>
-            <form>
+            <form onSubmit={handleModifySubmit}>
                 <div className="mt-4">
                     <label htmlFor="register-username" className="text-xl font-serif font-semibold">用户名</label>
                     <input
@@ -92,7 +70,7 @@ function ModifierModal( { closeModifier, showModifier } ) {
                         id="register-password"
                         value={modifierPassword}
                         onChange={(e) => setModifierPassword(e.target.value)}
-                        placeholder="请输入你的密码"
+                        placeholder="请输入你的新密码"
                         className="mt-3 block w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                         required
                     />
@@ -110,7 +88,7 @@ function ModifierModal( { closeModifier, showModifier } ) {
                     />
                 </div>
                 <div className="mt-4">
-                    <label htmlFor="email" className="text-xl font-serif font-semibold">确认密码</label>
+                    <label htmlFor="email" className="text-xl font-serif font-semibold">验证邮箱</label>
                     <input
                         type="email"
                         id="email"
@@ -123,7 +101,7 @@ function ModifierModal( { closeModifier, showModifier } ) {
                 </div>
                 <div className="flex justify-center text-center w-full">
                     <button
-                        onClick={handleModifySubmit}
+                        type="submit"
                         className="w-full mt-10 py-2 border border:bg-blue-100 bg-blue-500 text-gray-50 rounded-lg hover:bg-blue-600">注册
                     </button>
                 </div>

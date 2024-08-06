@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="bg-gray-600 text-white py-4">
+        <footer className="bg-gray-600 text-white py-3">
             <div className="text-center">
                 <p>2024.8</p>
                 <p>制作人：南京大学软件工程23级郑榕旺</p>

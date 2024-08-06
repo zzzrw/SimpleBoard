@@ -2,8 +2,9 @@
 export default {
     mode: "jit",
   content: [
-      "./src/pages/*.{jsx, html, js, ts, tsx}",
-      "./src/components/*.{jsx, html, js, ts, tsx}" ,
+      "./src/pages/*.jsx",
+      "./src/components/*.jsx",
+      "./src/components/**/*.jsx",
       "./src/App.jsx",
   ],
   theme: {
