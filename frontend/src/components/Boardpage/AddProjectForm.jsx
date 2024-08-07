@@ -1,11 +1,15 @@
 import react, {useState} from "react";
+import axios from "axios";
+import {useAuth} from "../../context/AuthContext.jsx";
 
-const AddProjectForm = ({ onAdd, onCancel }) => {
+const AddProjectForm = ({getProjects, onCancel }) => {
     const [projectName, setProjectName] = useState('');
-
-    const handleSubmit = (e) => {
+    const { user } = useAuth();
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onAdd(projectName);
+        const response = await axios.post('http://127.0.0.1:7001/api/createProject', {name: projectName, userID: user.id});
+        getProjects();
+        console.log(response)
         setProjectName('');
     };
 

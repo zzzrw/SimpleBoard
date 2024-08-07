@@ -26,10 +26,20 @@ export class UserService {
     if (user.email !== email){
       return null;
     }
-    
+
     if (user) {
       return await this.userRepository.save({username, password, email});
     } else {
+      return null;
+    }
+  }
+
+  async getProjects(username:string) {
+    const user = await this.userRepository.findOne({where: {username}});
+
+    if (user) {
+      return user.projects;
+    }else{
       return null;
     }
   }

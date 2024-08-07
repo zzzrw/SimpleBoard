@@ -10,12 +10,9 @@ export class Project {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  description: string;
-
   @ManyToOne(() => User, user => user.projects)
   user: User;
 
-  @OneToMany(() => Task, task => task.project)
-  tasks: Task[];
+  @OneToMany(() => Task, task => task.project, {cascade:true, nullable:true})
+  tasks?: Task[];
 }
