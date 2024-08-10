@@ -102,7 +102,7 @@ function ModifierModal( { closeModifier, showModifier } ) {
                 <div className="flex justify-center text-center w-full">
                     <button
                         type="submit"
-                        className="w-full mt-10 py-2 border border:bg-blue-100 bg-blue-500 text-gray-50 rounded-lg hover:bg-blue-600">注册
+                        className="w-full mt-10 py-2 border border:bg-blue-100 bg-blue-500 text-gray-50 rounded-lg hover:bg-blue-600">提交
                     </button>
                 </div>
             </form>

@@ -13,9 +13,6 @@ export class Task {
   @Column({ nullable: true })
   description: string;
 
-  @Column()
-  status: string;
-
   @Column({ type: 'datetime', nullable: true })
   due_date: Date | null;
 

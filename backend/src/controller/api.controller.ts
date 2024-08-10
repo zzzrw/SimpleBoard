@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Inject, Post, Query} from '@midwayjs/core';
 import {UserService} from '../service/user.service';
 import {ProjectService} from '../service/project.service';
+import {TaskService} from "../service/task.service";
 
 @Controller('/api')
 export class APIController {
@@ -8,6 +9,8 @@ export class APIController {
   userService: UserService;
   @Inject()
   projectService: ProjectService
+  @Inject()
+  taskService: TaskService
 
   @Post('/login')
   async login(@Body() body) {
@@ -55,8 +58,6 @@ export class APIController {
   @Post('/createProject')
   async createProject(@Body() body) {
     const { name, userID } = body;
-    console.log(body)
-    console.log(name, userID);
     const project = await this.projectService.createProject(name, userID);
     return { success: true, message: '创建成功', data: project };
   }
@@ -66,4 +67,19 @@ export class APIController {
     const result = await this.projectService.deleteProject(id);
     return { success: result, message: result ? '删除成功' : '删除失败' };
   }
+
+  @Post('/modifyProjectName')
+  async modifyProjectName(@Body() body) {
+    const { projectID, newName } = body;
+    const result = await this.projectService.updateProject(projectID, newName);
+    return { success: result, message: result ? '修改成功' : '修改失败'}
+  }
+
+  @Post('/createTask')
+  async createTask(@Body() body){
+    const { title, projectID } = body;
+    const task = await this.taskService.createTask(title, projectID);
+    return { success: true, message: '创建成功', data:task};
+  }
+
 }

@@ -13,6 +13,6 @@ export class Project {
   @ManyToOne(() => User, user => user.projects)
   user: User;
 
-  @OneToMany(() => Task, task => task.project, {cascade:true, nullable:true})
+  @OneToMany(() => Task, task => task.project, { cascade: true })
   tasks?: Task[];
 }
