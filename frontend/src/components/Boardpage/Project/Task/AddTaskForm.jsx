@@ -1,7 +1,7 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
-const AddTaskForm = ( {projectID, onCancel, getTask} ) => {
+const AddTaskForm = ( {projectID, onCancel, onTaskAdded} ) => {
     const [taskName, setTaskName] = useState("")
 
     const handleTaskSubmit = async (e) => {
@@ -11,11 +11,14 @@ const AddTaskForm = ( {projectID, onCancel, getTask} ) => {
             title:taskName,
             projectID:projectID
         }
+
         try {
             const response = await axios.post('http://127.0.0.1:7001/api/createTask', data);
             if (response.data.success){
+                if (onTaskAdded) {
+                    onTaskAdded();
+                }
                 onCancel();
-                getTask();
                 setTaskName('');
             }
         }catch (e){

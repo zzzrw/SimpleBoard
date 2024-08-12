@@ -27,7 +27,6 @@ function ModifierModal( { closeModifier, showModifier } ) {
             if (response.data.success) {
                 alert('修改密码成功');
                 closeModifier();
-
             } else {
                 alert('修改密码失败，用户名不存在或邮箱错误');
             }

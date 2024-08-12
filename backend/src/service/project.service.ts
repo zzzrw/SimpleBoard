@@ -30,7 +30,7 @@ export class ProjectService {
   }
 
   async getProjectByID(projectID: number) {
-    const project = await this.projectRepository.findOneBy({id: projectID});
+    const project = await this.projectRepository.findOne({where: {id: projectID}, relations: ['tasks', 'tasks.comments', 'tasks.comments.user', 'tasks.attachments']});
     if (project){
       return project;
     }

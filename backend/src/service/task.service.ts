@@ -14,8 +14,6 @@ export class TaskService {
       relations: ['tasks']
     });
     const task = this.taskRepository.create({title, project});
-    console.log(project);
-    console.log(task);
     return await this.taskRepository.save(task);
   }
 
@@ -27,7 +25,7 @@ export class TaskService {
   }
 
   async getTasks(projectID: number) {
-    const project = await this.projectRepository.findOne({where: {id: projectID}});
+    const project = await this.projectRepository.findOne({where: {id: projectID}, relations: ['tasks']});
     const tasks = project.tasks;
     if (tasks) {
       return tasks;
@@ -35,10 +33,24 @@ export class TaskService {
     return null;
   }
 
-  async updateTask(id: number, title: string) {
-    const task = await this.taskRepository.findOne({where: {id}});
+  async getTaskByID(taskID: number) {
+    const task = await this.taskRepository.findOneBy({id: taskID});
+    if (task){
+      return task;
+    } return null;
+  }
+
+  async updateTaskTitle(id: number, title: string) {
+    const task = await this.taskRepository.findOne({where: {id} });
     if (!task) return null;
     task.title = title;
+    return await this.taskRepository.save(task);
+  }
+
+  async updateTaskDescription(id: number, description: string) {
+    const task = await this.taskRepository.findOne({where: {id}});
+    if (!task) return null;
+    task.description = description;
     return await this.taskRepository.save(task);
   }
 
@@ -46,5 +58,4 @@ export class TaskService {
     const result = await this.taskRepository.delete(id);
     return result.affected > 0;
   }
-
 }

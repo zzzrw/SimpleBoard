@@ -1,6 +1,8 @@
 import { MidwayConfig } from '@midwayjs/core';
 import {join} from "path";
+import {uploadWhiteList} from "@midwayjs/upload";
 
+const additionalExtensions = ['.docx', '.doc', '.ppt', '.pptx', '.md', '.xlsx', '.txt'];
 export default {
   // use for cookie sign key, should change to your own and keep security
   keys: '1721727136343_4002',
@@ -20,5 +22,10 @@ export default {
     synchronize: true,
     logging: false,
   },
+  upload: {
+    dest: 'uploads/',
+    fileSize: '100mb',
+    whitelist: [...uploadWhiteList, ...additionalExtensions],
+  }
 
 } as MidwayConfig;
