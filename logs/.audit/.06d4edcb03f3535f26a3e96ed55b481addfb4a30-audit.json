@@ -1,0 +1,15 @@
+{
+  "keep": {
+    "days": true,
+    "amount": 7
+  },
+  "auditLog": "D:\\SimpleBoard\\logs\\.audit\\.06d4edcb03f3535f26a3e96ed55b481addfb4a30-audit.json",
+  "files": [
+    {
+      "date": 1723531755594,
+      "name": "D:\\SimpleBoard\\logs\\common-error.log.2024-08-13",
+      "hash": "9f8fc54af5776457acf7b30589a0ef03"
+    }
+  ],
+  "hashType": "md5"
+}

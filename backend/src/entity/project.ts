@@ -10,9 +10,9 @@ export class Project {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, user => user.projects)
+  @ManyToOne(() => User, user => user.projects, { onDelete: 'CASCADE' })
   user: User;
 
-  @OneToMany(() => Task, task => task.project, { cascade: true })
+  @OneToMany(() => Task, task => task.project)
   tasks?: Task[];
 }

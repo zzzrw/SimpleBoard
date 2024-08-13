@@ -10,11 +10,10 @@ export class Comment {
   @Column()
   content: string;
 
-
-  @ManyToOne(() => Task, task => task.comments)
+  @ManyToOne(() => Task, task => task.comments, { onDelete: 'CASCADE' })
   task: Task;
 
-  @ManyToOne(() => User, user => user.comments)
+  @ManyToOne(() => User, user => user.comments, { onDelete: 'CASCADE' })
   user: User;
 
   @CreateDateColumn()

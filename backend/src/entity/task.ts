@@ -14,10 +14,7 @@ export class Task {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ type: 'datetime', nullable: true })
-  due_date: Date | null;
-
-  @ManyToOne(() => Project, project => project.tasks)
+  @ManyToOne(() => Project, project => project.tasks, { onDelete: 'CASCADE' })
   project: Project;
 
   @OneToMany(() => Comment, comment => comment.task)

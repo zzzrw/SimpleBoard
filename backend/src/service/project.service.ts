@@ -40,7 +40,8 @@ export class ProjectService {
     const project = await this.projectRepository.findOne({where: {id}});
     if (!project) return null;
     project.name = name;
-    return await this.projectRepository.save(project);
+    await this.projectRepository.save(project);
+    return true;
   }
 
   async deleteProject(id: number) {

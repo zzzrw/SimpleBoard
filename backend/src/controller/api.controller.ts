@@ -40,7 +40,6 @@ export class APIController {
   async register(@Body() body) {
     const {username, password, email} = body;
     const user = await this.userService.register(username, password, email);
-
     if (user) {
       return {success: true, message: '注册成功', data: user};
     } else {
@@ -52,12 +51,22 @@ export class APIController {
   async modifier(@Body() body) {
     const {username, password, email} = body;
     const user = await this.userService.modifier(username, password, email);
-
     if (user) {
       return {success: true, message: '修改成功', data: user};
     } else {
       return {success: false, message: '修改失败，用户不存在或邮箱错误'};
     }
+  }
+
+  @Get('/users')
+  async getUsers(){
+    return await this.userService.getUsers();
+  }
+
+  @Post('/deleteUser')
+  async deleteUser(@Query('id') id: number){
+    const result = await this.userService.delete(id);
+    return {success: result, message: result ? '删除成功' : '删除失败'};
   }
 
   @Get('/projects')
@@ -83,7 +92,7 @@ export class APIController {
   async modifyProjectName(@Body() body) {
     const {projectID, newName} = body;
     const result = await this.projectService.updateProject(projectID, newName);
-    return {success: result, message: result ? '修改成功' : '修改失败'}
+    return {success: !!result, message: result ? '修改成功' : '修改失败'}
   }
 
   @Post('/createTask')
@@ -114,7 +123,7 @@ export class APIController {
   async updateTaskDescription(@Body() body) {
     const {id, description} = body;
     const result = await this.taskService.updateTaskDescription(id, description);
-    return {success: result, message: result ? '修改成功' : '修改失败'}
+    return {success: !!result, message: result ? '修改成功' : '修改失败'}
   }
 
   @Post('/updateTaskTitle')
@@ -164,13 +173,13 @@ export class APIController {
       } else {
         throw new Error('Unsupported file data type');
       }
-
       return attachment;
     });
-
+    const resolvedFileResponses = await Promise.all(fileResponses);
+    console.log(resolvedFileResponses);
     return {
       success: true,
-      files: fileResponses,
+      files: resolvedFileResponses,
       fields: fields
     };
   }
@@ -179,17 +188,14 @@ export class APIController {
   async download(@Query('filename') filename: string) {
     try {
       const filePath = join(__dirname, '../uploads', filename);
-
       await fsPromises.access(filePath);
-
       const fileStream = createReadStream(filePath);
-
       const encodedFilename = encodeURIComponent(filename);
 
       this.ctx.set('Content-Disposition', `attachment; filename="${encodedFilename}"`);
       this.ctx.set('Content-Type', 'application/octet-stream');
-
       this.ctx.body = fileStream;
+
     } catch (error) {
       console.error('下载文件失败:', error);
       this.ctx.status = 500;
@@ -205,12 +211,10 @@ export class APIController {
         return { success: false, message: '附件不存在' };
       }
 
-
       const filePath = join(__dirname, '../uploads', attachment.filename);
       await unlink(filePath);
 
       const result = await this.attachmentService.deleteAttachment(id);
-
       return { success: result, message: result ? '删除成功' : '删除失败' };
     } catch (error) {
       console.error('删除附件失败:', error);

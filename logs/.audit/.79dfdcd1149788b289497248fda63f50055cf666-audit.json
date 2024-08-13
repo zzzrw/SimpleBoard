@@ -1,0 +1,15 @@
+{
+  "keep": {
+    "days": true,
+    "amount": 7
+  },
+  "auditLog": "D:\\SimpleBoard\\logs\\.audit\\.79dfdcd1149788b289497248fda63f50055cf666-audit.json",
+  "files": [
+    {
+      "date": 1723531755588,
+      "name": "D:\\SimpleBoard\\logs\\midway-core.log.2024-08-13",
+      "hash": "d3e25d1a14f3b139f9e78557edf9e669"
+    }
+  ],
+  "hashType": "md5"
+}

@@ -14,8 +14,8 @@ const Task = ({projectID, tasks, deleteTask, showDelete, onTaskUpdated}) => {
     return (
         <div>
             {tasks && (tasks.map(task => (
-                <div>
-                    <button key={task.id}
+                <div key={task.id}>
+                    <button
                             className="flex flex-row w-full mb-2.5 p-2 bg-gray-50 rounded-2xl shadow-sm justify-between border border-gray-300 text-gray-600 hover:border-2 hover:border-blue-500"
                             onClick={() => toggleModal(task.id)}>
                         <p className="text-sm p-0.5">{task.title}</p>

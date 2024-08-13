@@ -256,7 +256,7 @@ const TaskModal = ({showTaskModal, closeTaskModal, task, onTaskUpdated}) => {
                 </div>
                 <div className="mt-4 flex flex-col space-y-2">
                     <h2 className="font-bold text-xl text-gray-700">附件</h2>
-                    {attachments.length > 0? (<ul className="list-disc mx-2">
+                    {attachments && attachments.length > 0? (<ul className="list-disc mx-2">
                         {attachments.map((attachment) => (
                             <li key={attachment.id} className="text-gray-500">
                                 {attachment.filename}

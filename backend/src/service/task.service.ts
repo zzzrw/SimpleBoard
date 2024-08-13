@@ -37,14 +37,16 @@ export class TaskService {
     const task = await this.taskRepository.findOne({where: {id} });
     if (!task) return null;
     task.title = title;
-    return await this.taskRepository.save(task);
+    await this.taskRepository.save(task);
+    return true;
   }
 
   async updateTaskDescription(id: number, description: string) {
     const task = await this.taskRepository.findOne({where: {id}});
     if (!task) return null;
     task.description = description;
-    return await this.taskRepository.save(task);
+    await this.taskRepository.save(task);
+    return true;
   }
 
   async deleteTask(id: number) {
