@@ -15,7 +15,7 @@ export default {
   },
   orm: {
     type: 'sqlite',
-    database: join(__dirname, '../../data/database.db'),
+    database: join(__dirname, 'data/database.db'),
     entities: [
       join(__dirname, '../src/entity/**/*.ts'),
     ],

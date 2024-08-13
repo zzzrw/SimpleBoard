@@ -49,5 +49,4 @@ export class ProjectService {
     const result = await this.projectRepository.delete(id);
     return result.affected > 0;
   }
-
 }
