@@ -134,6 +134,27 @@ const TaskModal = ({showTaskModal, closeTaskModal, task, onTaskUpdated}) => {
         }
     };
 
+    const handleDownload = (filename) => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = `http://127.0.0.1:7001/api/download?filename=${encodeURIComponent(filename)}`;
+        downloadLink.download = filename; // 提示浏览器下载文件
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    };
+
+    const deleteAttachment = async (id) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:7001/api/deleteAttachment?id=' + id);
+            if (response.data.success){
+                onTaskUpdated();
+                alert('删除成功');
+            }
+        }catch (e){
+            console.log('删除失败');
+        }
+    }
+
 
     return (
         <Modal
@@ -233,17 +254,21 @@ const TaskModal = ({showTaskModal, closeTaskModal, task, onTaskUpdated}) => {
                         </div>
                     ))}
                 </div>
-                <div className="mt-4 flex flex-col">
+                <div className="mt-4 flex flex-col space-y-2">
                     <h2 className="font-bold text-xl text-gray-700">附件</h2>
                     {attachments.length > 0? (<ul className="list-disc mx-2">
                         {attachments.map((attachment) => (
-                            <li key={attachment.id} className="text-gray-600">{attachment.filename}</li>
+                            <li key={attachment.id} className="text-gray-500">
+                                {attachment.filename}
+                                <button className="underline mx-2 text-blue-500 hover:text-blue-700" onClick={() => handleDownload(attachment.filename)}>下载</button>
+                                <button className="underline mx-2 hover:text-gray-800" onClick={() => deleteAttachment(attachment.id)}>删除</button>
+                            </li>
                         ))}
                     </ul> ): (<p className="text-gray-600 mx-2">暂无附件</p>)}
-                    <form onSubmit={handleUploadFile} className="flex flex-col umt-2 space-y-2">
-                        <input type="file" onChange={handleFileChange} className="mx-2.5" ref={fileInputRef}/>
+                    <form onSubmit={handleUploadFile} className="flex flex-col umt-2">
+                        <input type="file" onChange={handleFileChange} className="mt-8 mx-2.5" ref={fileInputRef}/>
                         <button type="submit"
-                                className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-700 ml-2">上传附件
+                                className="mt-4 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-700 ml-2">上传附件
                         </button>
                     </form>
                 </div>

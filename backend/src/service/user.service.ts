@@ -33,14 +33,4 @@ export class UserService {
       return null;
     }
   }
-
-  async getProjects(username:string) {
-    const user = await this.userRepository.findOne({where: {username}});
-
-    if (user) {
-      return user.projects;
-    }else{
-      return null;
-    }
-  }
 }

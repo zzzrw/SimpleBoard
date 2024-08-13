@@ -5,23 +5,24 @@ import {TaskService} from "../service/task.service";
 import {CommentService} from "../service/comment.service";
 import {AttachmentService} from "../service/attachment.service";
 import {join} from "path";
-import {createReadStream, createWriteStream, existsSync, mkdirSync} from "node:fs";
-// import {unlink} from "node:fs/promises";
+import {createReadStream, createWriteStream, existsSync, mkdirSync, promises as fsPromises} from "node:fs";
+import {unlink} from "node:fs/promises";
+import {Context} from "@midwayjs/koa";
 
 @Controller('/api')
 export class APIController {
   @Inject()
   userService: UserService;
   @Inject()
-  projectService: ProjectService
+  projectService: ProjectService;
   @Inject()
-  taskService: TaskService
+  taskService: TaskService;
   @Inject()
-  private commentService: CommentService
+  private commentService: CommentService;
   @Inject()
-  private attachmentService: AttachmentService
+  private attachmentService: AttachmentService;
   @Inject()
-  ctx;
+  ctx: Context;
 
   @Post('/login')
   async login(@Body() body) {
@@ -64,7 +65,6 @@ export class APIController {
     const projects = await this.projectService.getProjects(userID);
     return {success: true, data: projects};
   }
-
 
   @Post('/createProject')
   async createProject(@Body() body) {
@@ -175,19 +175,41 @@ export class APIController {
     };
   }
 
+  @Get('/download')
+  async download(@Query('filename') filename: string) {
+    try {
+      const filePath = join(__dirname, '../uploads', filename);
+
+      await fsPromises.access(filePath);
+
+      const fileStream = createReadStream(filePath);
+
+      const encodedFilename = encodeURIComponent(filename);
+
+      this.ctx.set('Content-Disposition', `attachment; filename="${encodedFilename}"`);
+      this.ctx.set('Content-Type', 'application/octet-stream');
+
+      this.ctx.body = fileStream;
+    } catch (error) {
+      console.error('下载文件失败:', error);
+      this.ctx.status = 500;
+      this.ctx.body = '文件下载失败';
+    }
+  }
+
   @Post('/deleteAttachment')
   async deleteAttachment(@Query('id') id: number) {
     try {
-      const result = await this.attachmentService.deleteAttachment(id);
-      // const attachment = await this.attachmentService.getAttachmentById(id);
-      // if (!attachment) {
-      //   return { success: false, message: '附件不存在' };
-      // }
-      //
-      // const filePath = join(__dirname, 'uploads', attachment.filename);
-      // await unlink(filePath);
+      const attachment = await this.attachmentService.getAttachmentById(id);
+      if (!attachment) {
+        return { success: false, message: '附件不存在' };
+      }
 
-      // const result = await this.attachmentService.deleteAttachment(id);
+
+      const filePath = join(__dirname, '../uploads', attachment.filename);
+      await unlink(filePath);
+
+      const result = await this.attachmentService.deleteAttachment(id);
 
       return { success: result, message: result ? '删除成功' : '删除失败' };
     } catch (error) {

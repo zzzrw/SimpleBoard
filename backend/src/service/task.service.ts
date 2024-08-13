@@ -17,13 +17,6 @@ export class TaskService {
     return await this.taskRepository.save(task);
   }
 
-  async addDescription(description: string, id: number) {
-    const task = await this.taskRepository.findOne({where:{id}})
-    if (!task) return null;
-    task.description = description;
-    return await this.taskRepository.save(task);
-  }
-
   async getTasks(projectID: number) {
     const project = await this.projectRepository.findOne({where: {id: projectID}, relations: ['tasks']});
     const tasks = project.tasks;
