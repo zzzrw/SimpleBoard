@@ -7,6 +7,27 @@ https://github.com/zzzrw/SimpleBoard
 
 ## 运行方式：
 
+### 使用Dockerfile:
+
+地址：
+
+```bash
+https://hub.docker.com/repository/docker/zzzrw/simpleboard
+```
+
+运行：
+
+```bash
+docker pull zzzrw/simpleboard:backend
+docker pull zzzrw/simpleboard:frontend
+docker run -p 7001:7001 zzzrw/simpleboard:backend
+docker run -p 5173:5173 zzzrw/simpleboard:frontend
+```
+
+进入http://localhost:5173/即可
+
+### 直接Clone:
+
 前端：
 
 安装依赖后，启动开发服务器
